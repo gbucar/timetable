@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, TouchableOpacityBase, TouchableOpacity, Touchable } from 'react-native';
+import { WebView } from 'react-native-webview';
 
 class LeftSquare extends Component {
     constructor (props) {
@@ -88,13 +89,21 @@ export default class Timetable extends Component {
             
         };
         this.changeWindow = this.changeWindow.bind(this);
+        this.showPdf = this.showPdf.bind(this);
     };
 
     changeWindow () {
         this.props.changeWindow()
         this.setState({
             times: [],
-            timetables: []
+            timetables: [],
+            pdf: false
+        });
+    };
+
+    showPdf () {
+        this.setState({
+            pdf: !this.state.pdf
         });
     };
 
@@ -104,10 +113,18 @@ export default class Timetable extends Component {
                 <StatusBar hidden />
                 <View style = {[styles.navbar, {backgroundColor: this.props.personTimetable["gender"] == "m" ? "#0080B7" : "#FA7171"}]}>
                     <Text style = {styles.text}>{this.props.firstName.trim().toLowerCase().replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase()))) + " " + this.props.secondName.trim().toLowerCase().replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())))}</Text>
-                    <TouchableOpacity onPress = {this.changeWindow}><Text style = {styles.text}>🔙</Text></TouchableOpacity>
-                </View>
-                
-                <View style = {styles.timetableContainer}>
+                    <View style = {styles.buttonContainer}>
+                        <TouchableOpacity onPress = {this.changeWindow}><Text style = {styles.text}>🔙</Text></TouchableOpacity>
+                        <TouchableOpacity onPress = {this.showPdf}><Text style = {styles.text}>📰</Text></TouchableOpacity>
+                    </View>
+                </View>  
+
+                {
+                    this.state.pdf ?
+                    
+                    <WebView source={{uri: 'https://docs.google.com/gview?url=https://gz.zelimlje.si/wp-content/uploads/sites/2/2021/09/Urnik_teden.pdf'}}/> :
+
+                    <View style = {styles.timetableContainer}>
                     <Times data = {this.state.times}></Times>
                     <View style = {styles.subjectContainer}>
                         {
@@ -118,13 +135,16 @@ export default class Timetable extends Component {
                     </View>
 
                 </View>
-                
+                } 
             </View>
         );
     };
 };
 
 const styles = StyleSheet.create({
+    buttonContainer: {
+        flexDirection: 'row-reverse'
+    },
     navbar:{
         justifyContent: "space-between",
         flexDirection: "row",
@@ -135,6 +155,7 @@ const styles = StyleSheet.create({
     text: {
         color: "white",
         paddingBottom: 0,
+        paddingLeft: 3,
         fontSize: 30
     },
     base : {
