@@ -6,6 +6,7 @@ import maturaTimetable from './assets/matura_timetable.json';
 import departments from './assets/departments.json';
 import timetableA from './assets/timetable_a.json';
 import timetableB from './assets/timetable_b.json';
+import { StatusBar } from 'expo-status-bar';
 
 export default class App extends Component {
   constructor (props) {

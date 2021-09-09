@@ -1,3 +1,4 @@
+import { StatusBar } from 'expo-status-bar';
 import React, { Component, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, TouchableOpacityBase, TouchableOpacity, Touchable } from 'react-native';
 
@@ -62,12 +63,13 @@ class Day extends Component {
                 table = table.concat(custom["subjects"].slice(10,12))
             break;
         }
+        let now = new Date();
         return (
             <View>
                 {
                     table.map(a => {
                         return (
-                        <View style = {styles.timetableItem} key = {Math.random()}>
+                        <View style = {[styles.timetableItem, {backgroundColor: now.getDay()-1 == day ? this.props.personTimetable["gender"] == "m" ? "#96DFFF" : "#FFBBBB" : ""}]} key = {Math.random()}>
                             <Text>{!a || a == "---" ? ":)" : a}</Text>    
                         </View>)
                     })
@@ -99,9 +101,10 @@ export default class Timetable extends Component {
     render () {
         return (
             <View style = {styles.base}>
+                <StatusBar hidden />
                 <View style = {[styles.navbar, {backgroundColor: this.props.personTimetable["gender"] == "m" ? "#0080B7" : "#FA7171"}]}>
                     <Text style = {styles.text}>{this.props.firstName.trim().toLowerCase().replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase()))) + " " + this.props.secondName.trim().toLowerCase().replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())))}</Text>
-                    <TouchableOpacity onPress = {this.changeWindow}><Text>🔙</Text></TouchableOpacity>
+                    <TouchableOpacity onPress = {this.changeWindow}><Text style = {styles.text}>🔙</Text></TouchableOpacity>
                 </View>
                 
                 <View style = {styles.timetableContainer}>
@@ -128,19 +131,20 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         padding: 5,
         paddingTop: 10,
-        fontSize: "150%"
     },
     text: {
         color: "white",
-        paddingBottom: 0
+        paddingBottom: 0,
+        fontSize: 30
     },
     base : {
         flex: 1,
-        flexDirection: "column"
+        flexDirection: "column",
+        overflow: "scroll"
     },
     leftSquare: {
-        bordercolor: "#000000",
         backgroundColor: "#c3c3c3",
+        height: 36,
         marginBottom: 5,
         paddingTop: 2,
     },
@@ -148,8 +152,11 @@ const styles = StyleSheet.create({
         color: "#ffffff",
         textAlign: "center",
         fontWeight: "bold",
-        textShadow: "2px 2px 1px #000000",
-        textShadowRadius: "10px"
+        textShadowRadius: 10,
+        textShadowOffset: {
+            x: 10,
+            y:10
+        }
 
     },
     timetableItem: {
@@ -167,7 +174,8 @@ const styles = StyleSheet.create({
     },
     timesContainer: {
         maxWidth: 50,
-        height: 40
+        height: 40,
+        marginLeft: 5
     },
     timetableContainer: {
         flexDirection: "row",

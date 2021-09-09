@@ -34,7 +34,7 @@ class Login extends Component {
           <Text style = {styles.title}>Vpiši svoje podatke:</Text>
           <TextInput style = {styles.inputField} placeholder = "Ime..." onChangeText = {this.handleFirstNameChange} value = {this.state.firstName} />
           <TextInput style = {styles.inputField} placeholder = "Priimek..." onChangeText = {this.handleSecondNameChange} value = {this.state.secondName} />
-          <TouchableOpacity style = {styles.button} onPress = {this.handleSubmit}><Text>➡️</Text></TouchableOpacity>
+          <TouchableOpacity style = {styles.button} onPress = {this.handleSubmit}><Text style = {styles.text}>➡️</Text></TouchableOpacity>
           <Text style = {styles.error}>{this.props.error}</Text>
         </View>
       );
@@ -42,6 +42,9 @@ class Login extends Component {
   };
 
   const styles = StyleSheet.create({
+    text: {
+      fontSize: 30
+    },
     container: {    
       flex: 1,
       backgroundColor: '#fff',
