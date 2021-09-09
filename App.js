@@ -1,16 +1,18 @@
 import React, { Component, useState, Navigator } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, TouchableOpacityBase, TouchableOpacity, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, TouchableOpacityBase, TouchableOpacity } from 'react-native';
 import Login from "./components/Login";
 import Timetable from "./components/Timetable";
 import maturaTimetable from './assets/matura_timetable.json';
 import departments from './assets/departments.json';
 import timetableA from './assets/timetable_a.json';
 import timetableB from './assets/timetable_b.json';
-import { StatusBar } from 'expo-status-bar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default class App extends Component {
   constructor (props) {
     super(props);
+    
     this.state = {
       firstName: "",
       secondName: "",
@@ -22,9 +24,15 @@ export default class App extends Component {
     this.handleCredentials = this.handleCredentials.bind(this);
   }
 
-  handleCredentials (firstName, secondName) {
-    firstName = firstName.toLowerCase()
-    secondName = secondName.toLowerCase()
+
+
+  async handleCredentials (firstName, secondName) {
+    firstName = firstName.toLowerCase();
+    secondName = secondName.toLowerCase();
+
+    const jsonValue = JSON.stringify([firstName, secondName]);
+    await AsyncStorage.setItem("credentials", jsonValue);
+
     let department = ""
     for (let key in departments) {
       if (departments[key].includes(firstName.split(" ").map((a,i) => i == 1? a[0] + "." : a).join(" ") + " " + secondName)) {

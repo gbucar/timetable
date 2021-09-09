@@ -1,5 +1,7 @@
 import React, { Component, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, TouchableOpacityBase, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 class Login extends Component {
     constructor(props) {
@@ -11,7 +13,19 @@ class Login extends Component {
       this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
       this.handleSecondNameChange = this.handleSecondNameChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.loadCredentials = this.loadCredentials.bind(this);
+      this.loadCredentials();
     }
+
+    async loadCredentials () {
+      const value =  JSON.parse( await AsyncStorage.getItem("credentials"));
+      if (value) {this.setState({
+        firstName: value[0],
+        secondName: value[1]
+      });
+    };
+  
+    };
     
     handleFirstNameChange (text) {
       this.setState({
