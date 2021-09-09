@@ -24,7 +24,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.gregorbucar.timetable"
+      "package": "com.timetable.timetable"
     },
     "web": {
       "favicon": "./assets/favicon.png"
