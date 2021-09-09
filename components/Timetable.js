@@ -89,7 +89,7 @@ export default class Timetable extends Component {
     render () {
         return (
             <View style = {styles.base}>
-                <Text style = {styles.text}>Urnik</Text>
+                <Text style = {[styles.text, {backgroundColor: this.props.personTimetable["gender"] == "m" ? "#0080B7" : "#FA7171"}]}>Urnik {this.props.firstName.trim().toLowerCase().replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase()))) + " " + this.props.secondName.trim().toLowerCase().replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())))}</Text>
                 <View style = {styles.timetableContainer}>
                     <Times data = {this.state.times}></Times>
                     <View style = {styles.subjectContainer}>
@@ -108,6 +108,14 @@ export default class Timetable extends Component {
 };
 
 const styles = StyleSheet.create({
+    text: {
+        marginBottom: 10,
+        padding: 5,
+        paddingTop: 10,
+        paddingBottom: 0,
+        fontSize: "150%",
+        color: "white"
+    },
     base : {
         flex: 1,
         flexDirection: "column"
@@ -116,11 +124,15 @@ const styles = StyleSheet.create({
         bordercolor: "#000000",
         backgroundColor: "#c3c3c3",
         marginBottom: 5,
-        paddingTop: 2
+        paddingTop: 2,
     },
     leftSquareText: {
         color: "#ffffff",
         textAlign: "center",
+        fontWeight: "bold",
+        textShadow: "2px 2px 1px #000000",
+        textShadowRadius: "10px"
+
     },
     timetableItem: {
         borderWidth: 2,
