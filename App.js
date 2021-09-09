@@ -28,7 +28,6 @@ export default class App extends Component {
     for (let key in departments) {
       if (departments[key].includes(firstName.split(" ").map((a,i) => i == 1? a[0] + "." : a).join(" ") + " " + secondName)) {
         department = key
-        console.log(department);
       }
     }
     if (maturaTimetable[firstName + " " + secondName]) {
@@ -52,8 +51,19 @@ export default class App extends Component {
     }
   }
 
+  restart() {
+    this.setState({
+      firstName: "",
+      secondName: "",
+      logged: false,
+      personTimetable: {},
+      errorMessage: "",
+      department: ""
+    });
+  }
+
   render (){
-    if (this.state.logged) return <Timetable department = {this.state.department} timetables = {[timetableA, timetableB, {}]} personTimetable = {this.state.personTimetable} firstName = {this.state.firstName} secondName = {this.state.secondName} />;
+    if (this.state.logged) return <Timetable changeWindow = {() => this.restart()} department = {this.state.department} timetables = {[timetableA, timetableB, {}]} personTimetable = {this.state.personTimetable} firstName = {this.state.firstName} secondName = {this.state.secondName} />;
     return <Login error = {this.state.errorMessage} handleCredentials = {this.handleCredentials}></Login>;
   }
 };

@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, TouchableOpacityBase, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, TouchableOpacityBase, TouchableOpacity, Touchable } from 'react-native';
 
 class LeftSquare extends Component {
     constructor (props) {
@@ -33,14 +33,14 @@ class Day extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            table: this.props.table,
-            custom: this.props.personTimetable
+            custom: this.props.personTimetable,
+            table: this.props.table
         }
     }
 
     render() {
-        let table = this.state.table;
-        let custom = this.state.custom;
+        let table = [...this.state.table];
+        let custom = {...this.state.custom};
         let day = this.props.day
         switch (day) {
             case 0:
@@ -59,14 +59,15 @@ class Day extends Component {
                 table.push(custom["subjects"][8])
             break;
             case 4:
-                table = table.concat(custom["subjects"].slice(9,11))
+                table = table.concat(custom["subjects"].slice(10,12))
             break;
         }
         return (
             <View>
                 {
                     table.map(a => {
-                        return (<View style = {styles.timetableItem}>
+                        return (
+                        <View style = {styles.timetableItem} key = {Math.random()}>
                             <Text>{!a || a == "---" ? ":)" : a}</Text>    
                         </View>)
                     })
@@ -84,17 +85,30 @@ export default class Timetable extends Component {
             timetables: this.props.timetables
             
         };
+        this.changeWindow = this.changeWindow.bind(this);
+    };
+
+    changeWindow () {
+        this.props.changeWindow()
+        this.setState({
+            times: [],
+            timetables: []
+        });
     };
 
     render () {
         return (
             <View style = {styles.base}>
-                <Text style = {[styles.text, {backgroundColor: this.props.personTimetable["gender"] == "m" ? "#0080B7" : "#FA7171"}]}>Urnik {this.props.firstName.trim().toLowerCase().replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase()))) + " " + this.props.secondName.trim().toLowerCase().replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())))}</Text>
+                <View style = {[styles.navbar, {backgroundColor: this.props.personTimetable["gender"] == "m" ? "#0080B7" : "#FA7171"}]}>
+                    <Text style = {styles.text}>{this.props.firstName.trim().toLowerCase().replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase()))) + " " + this.props.secondName.trim().toLowerCase().replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())))}</Text>
+                    <TouchableOpacity onPress = {this.changeWindow}><Text>🔙</Text></TouchableOpacity>
+                </View>
+                
                 <View style = {styles.timetableContainer}>
                     <Times data = {this.state.times}></Times>
                     <View style = {styles.subjectContainer}>
                         {
-                            this.props.timetables[0][this.props.department].map((a, i) => {
+                            this.state.timetables[0][this.props.department].map((a, i) => {
                                 return <Day table = {a} personTimetable = {this.props.personTimetable} day = {i} key = {i} ></Day> 
                             })
                         }
@@ -108,13 +122,17 @@ export default class Timetable extends Component {
 };
 
 const styles = StyleSheet.create({
-    text: {
+    navbar:{
+        justifyContent: "space-between",
+        flexDirection: "row",
         marginBottom: 10,
         padding: 5,
         paddingTop: 10,
-        paddingBottom: 0,
-        fontSize: "150%",
-        color: "white"
+        fontSize: "150%"
+    },
+    text: {
+        color: "white",
+        paddingBottom: 0
     },
     base : {
         flex: 1,
