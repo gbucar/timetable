@@ -1,4 +1,5 @@
 {
+  "homepage": "https://gbucar.github.io/timetable/",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
