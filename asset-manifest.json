@@ -1,22 +1,22 @@
 {
   "files": {
-    "app.js": "/timetable/static/js/app.c233cb2f.chunk.js",
-    "app.js.map": "/timetable/static/js/app.c233cb2f.chunk.js.map",
+    "app.js": "/timetable/static/js/app.6d5fa21c.chunk.js",
+    "app.js.map": "/timetable/static/js/app.6d5fa21c.chunk.js.map",
     "runtime~app.js": "/timetable/static/js/runtime~app.a938c091.js",
     "runtime~app.js.map": "/timetable/static/js/runtime~app.a938c091.js.map",
-    "static/js/2.3bbed4bb.chunk.js": "/timetable/static/js/2.3bbed4bb.chunk.js",
-    "static/js/2.3bbed4bb.chunk.js.map": "/timetable/static/js/2.3bbed4bb.chunk.js.map",
+    "static/js/2.4283e929.chunk.js": "/timetable/static/js/2.4283e929.chunk.js",
+    "static/js/2.4283e929.chunk.js.map": "/timetable/static/js/2.4283e929.chunk.js.map",
     "favicon-16.png": "/timetable/favicon-16.png",
     "favicon-32.png": "/timetable/favicon-32.png",
     "favicon.ico": "/timetable/favicon.ico",
     "index.html": "/timetable/index.html",
     "manifest.json": "/timetable/manifest.json",
     "serve.json": "/timetable/serve.json",
-    "static/js/2.3bbed4bb.chunk.js.LICENSE.txt": "/timetable/static/js/2.3bbed4bb.chunk.js.LICENSE.txt"
+    "static/js/2.4283e929.chunk.js.LICENSE.txt": "/timetable/static/js/2.4283e929.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime~app.a938c091.js",
-    "static/js/2.3bbed4bb.chunk.js",
-    "static/js/app.c233cb2f.chunk.js"
+    "static/js/2.4283e929.chunk.js",
+    "static/js/app.6d5fa21c.chunk.js"
   ]
 }
