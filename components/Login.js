@@ -39,6 +39,7 @@ class Login extends Component {
     };
 
     handleSubmit () {
+      if (this.props.loading) return
       this.props.handleCredentials(this.state.firstName.trim(), this.state.secondName.trim());
     };
 

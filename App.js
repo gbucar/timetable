@@ -19,7 +19,8 @@ export default class App extends Component {
       logged: false,
       personTimetable: {},
       errorMessage: "",
-      department: ""
+      department: "",
+      currentTimetable: false
     };
     this.handleCredentials = this.handleCredentials.bind(this);
   }
@@ -27,6 +28,7 @@ export default class App extends Component {
 
 
   async handleCredentials (firstName, secondName) {
+    this.setState({loading:true});
     firstName = firstName.toLowerCase();
     secondName = secondName.toLowerCase();
 
@@ -39,18 +41,36 @@ export default class App extends Component {
         department = key
       }
     }
+    if (!firstName || !secondName) return
     if (maturaTimetable[firstName + " " + secondName]) {
       this.setState({
         firstName: firstName,
         secondName: secondName,
         logged: true,
         personTimetable: maturaTimetable[firstName + " " + secondName],
-        department: department
+        department: department,
+        lastYear: true,
+        loading:false
       });
+    }
+    else if (department) {
+      let currentTimetable = false
+      let c = await fetch("https://timetable-gz.herokuapp.com/").then(a => a.json()).then(a => {currentTimetable = a})
+      this.setState({
+        firstName: firstName,
+        secondName: secondName,
+        logged:  true,
+        personTimetable: false,
+        department: department,
+        currentTimetable: currentTimetable,
+        lastYear: false,
+        loading:false
+      })
     }
     else {
       this.setState({
-        errorMessage: "Napačno ime ali priimek. Si pozabil zapisati obe imeni?"
+        errorMessage: "Napačno ime ali priimek. Si pozabil zapisati obe imeni?",
+        loading:false
       });
       setTimeout(() => {
         this.setState({
@@ -72,8 +92,8 @@ export default class App extends Component {
   }
 
   render (){
-    if (this.state.logged) return <Timetable changeWindow = {() => this.restart()} department = {this.state.department} timetables = {[timetableA, timetableB, {}]} personTimetable = {this.state.personTimetable} firstName = {this.state.firstName} secondName = {this.state.secondName} />;
-    return <Login error = {this.state.errorMessage} handleCredentials = {this.handleCredentials}></Login>;
+    if (this.state.logged) return <Timetable changeWindow = {() => this.restart()} department = {this.state.department} timetables = {[timetableA, timetableB, {}]} currentTimetable = {this.state.currentTimetable} personTimetable = {this.state.personTimetable} firstName = {this.state.firstName} secondName = {this.state.secondName} />;
+    return <Login error = {this.state.errorMessage} handleCredentials = {this.handleCredentials} login = {this.loading}></Login>;
   }
 };
 
